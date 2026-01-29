@@ -15,3 +15,10 @@ class DocumentVersion(SQLModel, table=True):
     created_at: datetime = Field(default_factory=datetime.now(timezone.utc))
 
 
+    document: "Document" = Relationship(back_populates="versions")
+    creator: "User" = Relationship(back_populates="document_versions")
+
+
+if TYPE_CHECKING:
+    from app.models.document import Document
+    from app.models.user import User

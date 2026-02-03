@@ -8,6 +8,7 @@ from jose import JWTError, jwt
 from sqlmodel import Session, select
 
 from app.core.config import settings
+from app.db.session import get_session
 
 
 bearer_scheme = HTTPBearer()
@@ -55,6 +56,51 @@ def decode_access_token(token: str) -> Optional[dict]:
         return payload
     except JWTError:
         return None
+
+
+def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme)
+):
+    from app.models.user import User
+
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+
+    token = credentials.credentials 
+    payload = decode_access_token(token)
+
+    if payload is None:
+        raise credentials_exception
+    
+    user_id: int = payload.get("user_id")
+
+    if user_id is None:
+        raise credentials_exception
+    
+    session = get_session()
+    user = session.get(User, user_id)
+
+    if user is None:
+            raise credentials_exception
+    
+    if not user.is_active:
+        raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="User is deactivated"
+        )
+    
+    return user 
+
+
+
+def require_admin(current_user = Depends(get_current_user)):
+    if current_user.role != "admin":
+        return False
+    return True
+
 
 
 

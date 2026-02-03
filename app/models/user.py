@@ -1,12 +1,10 @@
 from datetime import datetime, timezone 
-from turtle import back
 from typing import Optional, TYPE_CHECKING
 from enum import Enum 
 
 
 from sqlmodel import SQLModel, Field, Relationship
 
-from app.models import project_access
 
 class UserRole(str, Enum):
     admin = "admin"

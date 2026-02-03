@@ -41,7 +41,7 @@ app = FastAPI(
         redoc_url="/redoc"
     )
 
-def setup_cors_middleware(app):
+def setup_cors_middleware():
     app.add_middleware(
         CORSMiddleware, 
         allow_origins=["*"],
@@ -70,7 +70,6 @@ def main():
     app.include_router(users.router)
 
 
-if __name__ == "__main__":
-    main()
+main()
 
 

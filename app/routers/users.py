@@ -5,7 +5,6 @@ from app.core.security import require_admin
 from app.db.session import get_session
 from app.schemas.user import UserRead
 from app.services.user_service import UserService
-from app.models.user import User
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -14,8 +13,8 @@ def get_user_service(session: Session = Depends(get_session)) -> UserService:
 
 @router.get("/", response_model=list[UserRead])
 def list_users(
-    skip:int = Query(default=0, ge=0),
-    limit: int = Query(default=0, ge=1, le=500),
+    skip: int = Query(default=0, ge=0),
+    limit: int = Query(default=20, ge=1, le=500),
     is_admin: bool = Depends(require_admin),
     service: UserService = Depends(get_user_service)
 ):

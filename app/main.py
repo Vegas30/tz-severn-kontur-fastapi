@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.db.session import create_db_and_tables
 
-from app.routers import users, auth
+from app.routers import documents, projects, users, auth, access, auditlog
 
 
 
@@ -69,6 +69,10 @@ def main():
 
     app.include_router(users.router)
     app.include_router(auth.router)
+    app.include_router(projects.router)
+    app.include_router(access.router)
+    app.include_router(documents.router)
+    app.include_router(auditlog.router)
 
 
 main()

@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel, Field
 from typing import Optional
 
@@ -17,4 +18,19 @@ class DocumentUpdate(BaseModel):
     content: Optional[str] = None
 
 
- 
+class DocumentRead(DocumentBase):
+    id: int
+    project_id: int
+    status: DocumentStatus
+    created_by: int
+    updated_by: Optional[int] = None
+    created_at: datetime
+    updated_at: datetime
+    
+    class Config:
+        from_attributes = True
+
+class DocumentReadWithDetails(DocumentRead):
+    creator_email: Optional[str] = None
+    updater_email: Optional[str] = None
+    version_count: int = 0

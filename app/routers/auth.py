@@ -34,3 +34,8 @@ def login(
 ):
     service = UserService(session)
     return service.authenticate(credentials)
+
+
+@router.get("/me", response_model=UserRead)
+def get_me(current_user: User = Depends(get_current_user)):
+    return current_user

@@ -1,13 +1,12 @@
 from datetime import datetime, timezone
 from typing import Optional
-from xml.dom.minidom import Document
 from sqlmodel import Session, select, func
 from fastapi import HTTPException, status
 
 from app.core.audit import log_action
 from app.core.permissions import can_edit_project, can_view_project
 from app.models.audit_log import EntityType
-from app.models.document import DocumentStatus
+from app.models.document import Document, DocumentStatus
 from app.models.document_version import DocumentVersion
 from app.models.project import Project
 from app.models.user import User

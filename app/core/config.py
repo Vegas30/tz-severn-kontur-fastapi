@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     DEBUG: bool = False 
 
     #DataBase
-    DATABASE_URL: str = "sqlite:///.app.db"
+    DATABASE_URL: str = "sqlite:///./app.db"
 
     #JWT Settings 
     JWT_SECRET: str = "your-super-secret-key-change-in-production"
